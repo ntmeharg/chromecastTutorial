@@ -46,6 +46,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     options.physicalVolumeButtonsWillControlDeviceVolume = true
     GCKCastContext.setSharedInstanceWith(options)
     
+    // Add after the context is created.
+    GCKCastContext.sharedInstance().useDefaultExpandedMediaControls = true
+    
     let logFilter = GCKLoggerFilter()
     logFilter.minimumLevel = .verbose
     GCKLogger.sharedInstance().filter = logFilter

@@ -387,6 +387,10 @@ class MediaViewController: UIViewController, GCKSessionManagerListener,
 
   @objc func playSelectedItemRemotely() {
     loadSelectedItem(byAppending: false)
+    if let appDelegate = appDelegate, appDelegate.isCastControlBarsEnabled {
+        appDelegate.isCastControlBarsEnabled = false
+    }
+    GCKCastContext.sharedInstance().presentDefaultExpandedMediaControls()
   }
 
   /**
