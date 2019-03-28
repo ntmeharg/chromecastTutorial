@@ -65,7 +65,19 @@ class MediaTableViewController: UITableViewController, GCKSessionManagerListener
     NotificationCenter.default.addObserver(self, selector: #selector(deviceOrientationDidChange),
                                            name: UIDevice.orientationDidChangeNotification, object: nil)
     UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+    
+    NotificationCenter.default.addObserver(self, selector: #selector(castDeviceDidChange),
+                                           name: NSNotification.Name.gckCastStateDidChange,
+                                           object: GCKCastContext.sharedInstance())
   }
+
+   @objc func castDeviceDidChange(_: Notification) {
+        if GCKCastContext.sharedInstance().castState != .noDevicesAvailable {
+            // You can present the instructions on how to use Google Cast on
+            // the first time the user uses you app
+            GCKCastContext.sharedInstance().presentCastInstructionsViewControllerOnce(with: castButton)
+        }
+    }
 
   @objc func deviceOrientationDidChange(_: Notification) {
     tableView.reloadData()
