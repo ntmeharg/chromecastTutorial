@@ -51,6 +51,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     GCKLogger.sharedInstance().filter = logFilter
     GCKLogger.sharedInstance().delegate = self
 
+    let appStoryboard = UIStoryboard(name: "Main", bundle: nil)
+    guard let navigationController = appStoryboard.instantiateViewController(withIdentifier: "MainNavigation")
+        as? UINavigationController else { return false }
+    let castContainerVC = GCKCastContext.sharedInstance().createCastContainerController(for: navigationController)
+        as GCKUICastContainerViewController
+    castContainerVC.miniMediaControlsItemEnabled = true
+    window = UIWindow(frame: UIScreen.main.bounds)
+    window?.rootViewController = castContainerVC
+    window?.makeKeyAndVisible()
+    
     NotificationCenter.default.addObserver(self, selector: #selector(syncWithUserDefaults),
                                            name: UserDefaults.didChangeNotification,
                                            object: nil)
